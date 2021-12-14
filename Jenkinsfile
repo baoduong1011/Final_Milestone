@@ -45,15 +45,15 @@ pipeline {
                 }
             }
         }
-//     stage('Create and push container') {
-//       steps {
-//         withCredentials([usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-//           withMaven(maven : 'Milestone_Maven') {
-//             sh "mvn jib:build"
-//           }
-//         }
-//       } 
-//     }
+    stage('Create and push container') {
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+          withMaven(maven : 'Milestone_Maven') {
+            sh "mvn jib:build"
+          }
+        }
+      } 
+    }
 
 //     stage('Anchore analyse') {
 //       steps {
@@ -62,14 +62,6 @@ pipeline {
 //       }
 //     }
 
-//     stage('Deploy to K8s') {
-//       steps {
-//         withKubeConfig([credentialsId: 'kubernetes-config']) {
-//           sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"'
-//           sh 'chmod u+x ./kubectl'
-//           sh './kubectl apply -f k8s.yaml'
-//         }
-//       } 
-//     }
+
   }
 }
