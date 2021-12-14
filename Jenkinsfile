@@ -15,17 +15,17 @@ pipeline {
       }
     }
   
-     stage ('OWASP Dependency-Check Vulnerabilities') {
-      steps {
-        dependencyCheck additionalArguments: ''' 
-          -o "./" 
-          -s "./"
-          -f "ALL" 
-          --prettyPrint''', odcInstallation: 'Dependency_Milestone'
+//      stage ('OWASP Dependency-Check Vulnerabilities') {
+//       steps {
+//         dependencyCheck additionalArguments: ''' 
+//           -o "./" 
+//           -s "./"
+//           -f "ALL" 
+//           --prettyPrint''', odcInstallation: 'Dependency_Milestone'
 
-        dependencyCheckPublisher pattern: 'dependency-check-report.xml'
-      }
-    }
+//         dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+//       }
+//     }
     stage('SonarQube analysis') {
       environment {
                 scannerHome = tool 'Milestone_Sonar'
