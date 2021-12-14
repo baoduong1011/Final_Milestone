@@ -7,7 +7,7 @@ pipeline {
   }
 
   stages {
-    stage('Build && Test') {
+    stage('Build And Test Stage') {
       steps {
         withMaven(maven : 'Milestone_Maven') {
           sh "mvn package"
@@ -15,7 +15,7 @@ pipeline {
       }
     }
   
-     stage ('OWASP Dependency-Check Vulnerabilities') {
+     stage ('OWASP Check Vulnerabilities Stage') {
       steps {
         dependencyCheck additionalArguments: ''' 
           -o "./" 
@@ -26,7 +26,7 @@ pipeline {
         dependencyCheckPublisher pattern: 'dependency-check-report.xml'
       }
     }
-    stage('SonarQube analysis') {
+    stage('SonarQube Analysis Stage') {
       environment {
                 scannerHome = tool 'Milestone_Sonar'
       }
@@ -38,14 +38,14 @@ pipeline {
         }
       }
     }
-    stage("Quality Gate") {
+    stage("Quality Gate Stage") {
             steps {
                 timeout(time: 1, unit: 'MINUTES') {
                     waitForQualityGate abortPipeline: true
                 }
             }
         }
-    stage('Create and push container') {
+    stage('Create and push container Stage') {
       steps {
         withCredentials([usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
           withMaven(maven : 'Milestone_Maven') {
