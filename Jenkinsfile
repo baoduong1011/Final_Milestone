@@ -3,7 +3,7 @@ pipeline {
 
   tools {
     jdk 'JDK11'
-    maven 'Milestone_Maven' //đổi tên
+    maven 'Milestone_Maven' 
   }
 
   stages {
@@ -31,14 +31,13 @@ pipeline {
                 scannerHome = tool 'Milestone_Sonar'
       }
       steps {
-//         withSonarQubeEnv(credentialsId: 'sonarqube-secret', installationName: 'sonarqube-server') {
         withSonarQubeEnv('Milestone_SonarServer') {
           withMaven(maven : 'Milestone_Maven') {
             sh 'mvn sonar:sonar -Dsonar.dependencyCheck.jsonReportPath=target/dependency-check-report.json -Dsonar.dependencyCheck.xmlReportPath=target/dependency-check-report.xml -Dsonar.dependencyCheck.htmlReportPath=target/dependency-check-report.html'
           }
         }
       }
-    //}
+    }
     stage("Quality Gate") {
             steps {
                 timeout(time: 1, unit: 'MINUTES') {
@@ -72,4 +71,5 @@ pipeline {
 //         }
 //       } 
 //     }
- }
+  }
+}
